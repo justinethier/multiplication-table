@@ -1,0 +1,166 @@
+<html>
+<head>
+    <title>Interactive Multiplication Table</title>
+<!--
+// TODO: get background from
+// http://subtlepatterns.com/
+-->
+
+<link rel="stylesheet" type="text/css" href="css/simplegrid.css" />
+<link rel="stylesheet" type="text/css" href="css/mulTbl/jquery-ui-1.9.0.custom.min.css" />
+<style type="text/css">
+  body {
+      margin: 0;
+      padding: 0;
+  }
+
+  .content-link { 
+      color: white;
+      font-size: smaller !important; 
+  }
+
+  .content-label { 
+      color: white;
+  }
+
+  .content-square {
+  }
+</style>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.9.0.custom.min.js"></script>
+<script type="text/javascript">
+    // TODO: extract out into its own file
+
+    $(document).ready(function(){
+        var $_GET = getQueryParams(document.location.search),
+            offset = $_GET.offset;
+        (new MulTable(offset));
+    });
+
+    // http://stackoverflow.com/questions/439463/how-to-get-get-and-post-variables-with-jquery
+    function getQueryParams(qs) {
+        qs = qs.split("+").join(" ");
+        var params = {},
+            tokens,
+            re = /[?&]?([^=]+)=([^&]*)/g;
+    
+        while (tokens = re.exec(qs)) {
+            params[decodeURIComponent(tokens[1])]
+                = decodeURIComponent(tokens[2]);
+        }
+    
+        return params;
+    }
+
+    function MulTable(offset){
+        var that = this;
+
+        that.render(parseInt(offset, 10));
+
+        // Setup event handlers
+        jQuery('#hide-all').click(function(){ that.adjustAll(false); });
+        jQuery('#show-all').click(function(){ that.adjustAll(true); });
+    }
+
+    MulTable.prototype.adjustAll = function(value){
+        var that = this;
+
+        jQuery('input:checkbox', '#tbl').each(function(){
+            jQuery(this).prop('checked', value)
+                        .button('refresh');
+            if (value){
+                that.showButton(this);
+            } else {
+                that.hideButton(this);
+            }
+        });
+    }
+
+    MulTable.prototype.showButton = function(jqButton){
+        $('.ui-button-text', jqButton.parentNode).text(
+            $('label', jqButton.parentNode).attr('value'));
+    }
+
+    MulTable.prototype.hideButton = function(jqButton){
+        $('.ui-button-text', jqButton.parentNode).html(
+            "&nbsp;");
+    }
+
+    MulTable.prototype.render = function(offsetArg){
+        var r, rv, row, c, cv, col, id, offset = offsetArg || 0;
+
+        for (r=0; r < 11; r++){
+            row = $('<div class="grid grid-pad"></div>');
+            for (c=0; c < 11; c++){
+
+                rv = r + offset;
+                cv = c + offset;
+
+                if (r === 0 && c === 0){
+                    col = $('<div class="col-1-11">&nbsp;</div>');
+                } else if (r === 0){
+                    col = $('<div class="col-1-11"><div class="content content-label" style="text-align: center;">' + 
+                        cv + '</div></div>');
+                } else if (c === 0){
+                    col = $('<div class="col-1-11"><div class="content content-label" style="text-align: right;">' + 
+                        rv + '</div></div>');
+                } else {
+                    col = $('<div class="col-1-11"><div class="content content-square">' + 
+
+                    // (r * c)
+                    '<input type="checkbox" id="check_' + rv + '_' + cv + '" /><label style="width: 100%;" for="check_' + rv + '_' + cv + '" value="'+ (rv * cv) +'">&nbsp;</label>' +
+
+                    '</div></div>');
+                }
+                row.append(col);
+            }
+            $('#tbl').append(row);
+        }
+
+        $('#tbl').append($('<div> &nbsp; </div>'));
+        for (r=0; r < 11; r++){
+            for (c=0; c < 11; c++){
+                rv = r + offset;
+                cv = c + offset;
+
+                id = '#check_' + rv + '_' + cv;
+                $(id)
+                    .button()
+                    .click(function(){
+                       if ($(this).is(':checked')){
+                           $('.ui-button-text', this.parentNode).text(
+                               $('label', this.parentNode).attr('value'));
+                       } else {
+                           $('.ui-button-text', this.parentNode).html(
+                               "&nbsp;");
+                       }
+                    });
+            }
+        }
+    }
+</script>
+</head>
+<body style='background: url("wood_pattern/wood_pattern.png") repeat scroll 0 0 transparent;'>
+  <!--
+  <span class="mulTbl">
+    <h1 class="mulTbl ui-widget-header" style="font-size: largest; text-align: center; margin-top: 0px; margin-bottom: -20px;">Multiplication Table</h1>
+  </span>
+  -->
+  <div id="main-content" class="mulTbl">
+  <div style="margin-top: 2%; margin-left: 2%; margin-right: 2%; margin-bottom: -1.75%;">
+    <strong style="font-size: 1.75em;">Multiplication Table</strong>
+    <a style="font-size: 1em; color: black; float: right;" class="ui-widget" href="index.html?offset=10">Advanced (11 - 20)</a>
+    <a style="font-size: 1em; color: black; float: right; margin-right: 15px;" class="ui-widget" href="index.html">Basic (1 - 10)</a>
+  </div>
+    <div id="tbl" class="ui-widget" style="background-color: rgba(66, 66, 66, 0.5); margin: 2%;">
+        <div style="position: relative; top: 5; left: 5;">
+         <div style="position: absolute;">
+          <a class="ui-widget content-link" href="#" id="hide-all">Hide All</a> <br />
+          <a class="ui-widget content-link" href="#" id="show-all">Show All</a>
+         </div>
+        </div>
+    </div>
+  </div>
+</body>
+</html>
+ 
