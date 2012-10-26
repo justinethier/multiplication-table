@@ -9,6 +9,32 @@ body {
         repeat scroll 0 0 transparent;
 }
 
+#content-title {
+    margin-top: 2%; 
+    margin-left: 2%; 
+    margin-right: 2%; 
+    margin-bottom: -1.75%;
+}
+
+#content-title strong {
+    font-size: 1.75em;
+}
+
+#content-title a {
+    font-size: 1em; 
+    color: black; 
+    float: right;
+    margin-left: 15px;
+}
+
+#tbl {
+    background-color: rgba(66, 66, 66, 0.5); 
+    margin: 2%;
+}
+
+#tbl-outer-sidebar { position: relative; top: 5; left: 5; }
+#tbl-inner-sidebar { position: absolute; }
+
 .content-link { 
     color: white;
     font-size: smaller !important; 
