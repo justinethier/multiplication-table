@@ -77,12 +77,12 @@ MulTable.prototype.render = function(offsetArg){
             cv = c + offset;
 
             if (r === 0 && c === 0){
-                col = $('<div class="col-1-11">&nbsp;</div>');
+                col = $('<div class="col-1-11"><div class="content content-label" style="text-align: center;">X</div></div>');
             } else if (r === 0){
                 col = $('<div class="col-1-11"><div class="content content-label" style="text-align: center;">' + 
                     cv + '</div></div>');
             } else if (c === 0){
-                col = $('<div class="col-1-11"><div class="content content-label" style="text-align: right;">' + 
+                col = $('<div class="col-1-11"><div class="content content-label" style="text-align: center;">' + 
                     rv + '</div></div>');
             } else {
                 col = $('<div class="col-1-11"><div class="content content-square">' + 
