@@ -1,17 +1,14 @@
 <!--
-  -- An Interactive Multiplication table
-  -- Author: Justin Ethier <justin dot ethier at gmail dot com>
+  An Interactive Multiplication table
+  https://github.com/justinethier/multiplication-table
+
+  Copyright (c) 2012 Justin Ethier <justin dot ethier at gmail dot com>
   -->
 <html>
 <head>
     <title>Interactive Multiplication Table</title>
 <!--
 // TODO's:
-
-- move teaching/github links to the bottom-left side of the table (like the copyright)
-- move basic/advanced to where the links used to be
-- not sure how to make show/hide look nice. maybe we just move them to where basic/advanced are and
-  just deal with the empty whitespace on the left-hand side of the table
 
 - would be nice to highlight rows/cols to make it clear what
   operation the current button corresponds to
@@ -27,25 +24,29 @@
 </head>
 <body>
   <div id="main-content" class="mulTbl"> 
-    <div class="ui-widget-headerX ui-corner-bottom" style="margin-left: 70%; width: 28%; text-align: center; white-space: nowrap; background-color: rgba(66, 66, 66, 0.5); padding: 5px; font-weight: normal !important; font-size: smaller;" id="header-bar">
-        <a class="ui-widget content-link" href="http://www.mathsisfun.com/tables.html">Learn Your Multiplication Tables</a>
-        &nbsp; 
-        <a class="ui-widget content-link" href="https://github.com/justinethier/multiplication-table">Fork project on GitHub</a>
+    <div class="ui-widget-headerX ui-corner-bottom" style="margin-left: 70%; width: 28%; text-align: center; white-space: nowrap; background-color: rgba(66, 66, 66, 0.5); padding: 5px; font-weight: normal !important; " id="header-bar">
+      <a class="ui-widget" style="color: white;" href="index.html">Basic (1 - 10)</a>
+      &nbsp;
+      &nbsp;
+      <a class="ui-widget" style="color: white;" href="index.html?offset=10">Advanced (11 - 20)</a>
     </div>
     <div id="content-title">
       <strong>Multiplication Table</strong>
-      <a class="ui-widget" href="index.html?offset=10">Advanced (11 - 20)</a>
-      <a class="ui-widget" href="index.html">Basic (1 - 10)</a>
+      <a class="ui-widget" style="margin-top: 15px;" href="#" id="hide-all">Hide All</a>
+      <a class="ui-widget" style="margin-top: 15px;" href="#" id="show-all">Show All</a>
     </div>
     <div id="tbl" class="ui-widget">
       <div id="tbl-outer-sidebar">
         <div id="tbl-inner-sidebar">
-          <a class="ui-widget content-link" href="#" id="hide-all">Hide All</a> <br />
-          <a class="ui-widget content-link" href="#" id="show-all">Show All</a>
         </div>
       </div>
     </div>
     <div id="footer" style="font-size: smaller; margin-top: -2%; margin-left: 0%; width: 98%; text-align: right;">
+    <span style="float: left; margin-left: 2%;">
+        <a style="color: black;" href="http://www.mathsisfun.com/tables.html">Learn Your Multiplication Tables</a>
+        &nbsp; 
+        <a style="color: black;" href="https://github.com/justinethier/multiplication-table">Fork project on GitHub</a>
+    </span>
     Copyright (C) 2012 <a href="https://github.com/justinethier" style="color: black;">Justin Ethier</a>
     </div>
   </div>

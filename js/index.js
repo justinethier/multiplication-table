@@ -1,5 +1,10 @@
 /**
- * Code for the main page
+ * An Interactive Multiplication table
+ * https://github.com/justinethier/multiplication-table
+ *
+ * Copyright (c) 2012 Justin Ethier <justin dot ethier at gmail dot com>
+ *
+ * This file contains code for the main page
  */
 
 jQuery(document).ready(function(){
