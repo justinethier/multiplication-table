@@ -29,6 +29,7 @@ body {
     font-size: 1em; 
     color: black; 
     float: right;
+    margin-top: 15px;
     margin-left: 15px;
 }
 
@@ -51,3 +52,35 @@ body {
 
 .content-square {
 }
+
+#header-bar {
+    margin-left: 70%; 
+    width: 28%; 
+    text-align: center; 
+    white-space: nowrap; 
+    background-color: rgba(66, 66, 66, 0.5); 
+    padding: 5px; 
+    font-weight: normal !important; 
+}
+
+#footer {
+    font-size: smaller; 
+    margin-top: -2%; 
+    margin-left: 0%; 
+    width: 98%; 
+    text-align: right;
+}
+
+#footer span {
+    float: left; 
+    margin-left: 2%;
+}
+
+#footer a {
+    color: black;
+}
+
+#footer span a {
+    color: black;
+}
+
