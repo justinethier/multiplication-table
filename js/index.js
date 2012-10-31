@@ -7,14 +7,19 @@
  * This file contains code for the main page
  */
 
+/**
+ * Called on DOM ready to initialize everything
+ */
 jQuery(document).ready(function(){
     var $_GET = getQueryParams(document.location.search),
         offset = $_GET.offset;
     (new MulTable(offset));
 });
 
-// A utility function to extract GET parameter variables
-// http://stackoverflow.com/questions/439463/how-to-get-get-and-post-variables-with-jquery
+/**
+ * A utility function to extract GET parameter variables
+ * http://stackoverflow.com/questions/439463/how-to-get-get-and-post-variables-with-jquery
+ */
 function getQueryParams(qs) {
     qs = qs.split("+").join(" ");
     var params = {},
@@ -42,6 +47,9 @@ function MulTable(offset){
     jQuery('#show-all').click(function(){ that.adjustAll(true); });
 }
 
+/**
+ * Callback to show/hide all buttons
+ */
 MulTable.prototype.adjustAll = function(value){
     var that = this;
 
@@ -56,16 +64,25 @@ MulTable.prototype.adjustAll = function(value){
     });
 }
 
+/**
+ * Show contents of a 'button'
+ */
 MulTable.prototype.showButton = function(jqButton){
     $('.ui-button-text', jqButton.parentNode).text(
         $('label', jqButton.parentNode).attr('value'));
 }
 
+/**
+ * Hide contents of a 'button'
+ */
 MulTable.prototype.hideButton = function(jqButton){
     $('.ui-button-text', jqButton.parentNode).html(
         "&nbsp;");
 }
 
+/**
+ * Render DOM for the multiplication table
+ */
 MulTable.prototype.render = function(offsetArg){
     var r, rv, row, c, cv, col, id, offset = offsetArg || 0;
 
@@ -115,6 +132,13 @@ MulTable.prototype.render = function(offsetArg){
                            "&nbsp;");
                    }
                 });
+            // FUTURE:
+            // $('label', this.parentNode)
+            //     .hover(function(){
+            //         $(this.parentNode.parentNode)
+            //             .prevAll('div > label')
+            //             .addClass('ui-state-hover');
+            //     });
         }
     }
 }
