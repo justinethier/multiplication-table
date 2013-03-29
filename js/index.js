@@ -12,8 +12,9 @@
  */
 jQuery(document).ready(function(){
     var $_GET = getQueryParams(document.location.search),
-        offset = $_GET.offset;
-    (new MulTable(offset));
+        offset = $_GET.offset,
+        base = $_GET.base || 10;
+    (new MulTable(offset, base));
 });
 
 /**
@@ -37,10 +38,10 @@ function getQueryParams(qs) {
 /**
  * An object to construct and work with the multiplication table
  */
-function MulTable(offset){
+function MulTable(offset, base){
     var that = this;
 
-    that.render(parseInt(offset, 10));
+    that.render(parseInt(offset, 10), parseInt(base, 10));
 
     // Setup event handlers
     jQuery('#hide-all').click(function(){ that.adjustAll(false); });
@@ -83,29 +84,32 @@ MulTable.prototype.hideButton = function(jqButton){
 /**
  * Render DOM for the multiplication table
  */
-MulTable.prototype.render = function(offsetArg){
-    var r, rv, row, c, cv, col, id, offset = offsetArg || 0;
+MulTable.prototype.render = function(offsetArg, base){
+    var r, rv, row, c, cv, col, id, offset = offsetArg || 0,
+        product, max = (base == 2 ? 11 : base + 1),
+        cssClass = "col-1-" + (max);
 
-    for (r=0; r < 11; r++){
+    for (r=0; r < max; r++){
         row = $('<div class="grid grid-pad"></div>');
-        for (c=0; c < 11; c++){
+        for (c=0; c < max; c++){
 
             rv = r + offset;
             cv = c + offset;
+            product = (rv * cv).toString(base).toUpperCase();
 
             if (r === 0 && c === 0){
-                col = $('<div class="col-1-11"><div class="content content-label" style="text-align: center;">X</div></div>');
+                col = $('<div class="' + cssClass + '"><div class="content content-label" style="text-align: center;">X</div></div>');
             } else if (r === 0){
-                col = $('<div class="col-1-11"><div class="content content-label" style="text-align: center;">' + 
-                    cv + '</div></div>');
+                col = $('<div class="' + cssClass + '"><div class="content content-label" style="text-align: center;">' + 
+                    cv.toString(base).toUpperCase() + '</div></div>');
             } else if (c === 0){
-                col = $('<div class="col-1-11"><div class="content content-label" style="text-align: center;">' + 
-                    rv + '</div></div>');
+                col = $('<div class="' + cssClass + '"><div class="content content-label" style="text-align: center;">' + 
+                    rv.toString(base).toUpperCase() + '</div></div>');
             } else {
-                col = $('<div class="col-1-11"><div class="content content-square">' + 
+                col = $('<div class="' + cssClass + '"><div class="content content-square">' + 
 
                 // (r * c)
-                '<input type="checkbox" id="check_' + rv + '_' + cv + '" /><label style="width: 100%;" for="check_' + rv + '_' + cv + '" value="'+ (rv * cv) +'">&nbsp;</label>' +
+                '<input type="checkbox" id="check_' + rv + '_' + cv + '" /><label style="width: 100%;" for="check_' + rv + '_' + cv + '" value="'+ (product) +'">&nbsp;</label>' +
 
                 '</div></div>');
             }
@@ -115,8 +119,8 @@ MulTable.prototype.render = function(offsetArg){
     }
 
     $('#tbl').append($('<div> &nbsp; </div>'));
-    for (r=0; r < 11; r++){
-        for (c=0; c < 11; c++){
+    for (r=0; r < max; r++){
+        for (c=0; c < max; c++){
             rv = r + offset;
             cv = c + offset;
 
