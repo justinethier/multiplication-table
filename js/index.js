@@ -41,6 +41,8 @@ function getQueryParams(qs) {
 function MulTable(offset, base){
     var that = this;
 
+    that.blinkingID = null;
+    that.timer = null;
     that.render(parseInt(offset, 10), parseInt(base, 10));
 
     // Setup event handlers
@@ -85,7 +87,7 @@ MulTable.prototype.hideButton = function(jqButton){
  * Render DOM for the multiplication table
  */
 MulTable.prototype.render = function(offsetArg, base){
-    var r, rv, row, c, cv, col, id, offset = offsetArg || 0,
+    var that = this, r, rv, row, c, cv, col, id, offset = offsetArg || 0,
         product, max = (base == 2 ? 11 : base + 1),
         cssClass = "col-1-" + (max);
 
@@ -135,6 +137,11 @@ MulTable.prototype.render = function(offsetArg, base){
                        $('.ui-button-text', this.parentNode).html(
                            "&nbsp;");
                    }
+
+                   if (that.blinkingID != null &&
+                       $(this).attr('id') == that.blinkingID){
+                       that.blinkClear();
+                   }
                 });
             // FUTURE:
             // $('label', this.parentNode)
@@ -145,4 +152,36 @@ MulTable.prototype.render = function(offsetArg, base){
             //     });
         }
     }
+
+// TODO: this is just for debugging, but need a way to init
+//       test mode:
+// that.blinkButton('check_1_2');
 }
+
+MulTable.prototype.blinkInit = function(id){ /* TODO */ }
+MulTable.prototype.blinkNext = function(id){ /* TODO */ }
+
+MulTable.prototype.blinkStart = function(id){
+    var that = this, elm = jQuery('#' + id).parent();
+
+    that.blinkClear();
+    that.blinkingID = id;
+    that.timer = setInterval(blink, 10);
+
+    function blink() {
+        elm.fadeOut(400, function() {
+           elm.fadeIn(400);
+        });
+    }
+}
+
+MulTable.prototype.blinkStop = function(){
+    var that = this;
+    
+    if(that.timer != null){
+        clearInterval(that.timer);
+        that.blinkingID = null; 
+        that.timer = null;
+    }
+}
+
