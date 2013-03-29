@@ -15,22 +15,25 @@ body {
 }
 
 #content-title {
-    margin-top: 2%; 
+    margin-top: 2%;
     margin-left: 2%; 
     margin-right: 2%; 
-    margin-bottom: -1.75%;
+    margin-bottom: -2%;
 }
 
 #content-title strong {
     font-size: 1.75em;
 }
 
-#content-title a {
-    font-size: 1em; 
-    color: black; 
-    float: right;
-    margin-top: 15px;
-    margin-left: 15px;
+#content-title:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.content-title-links a {
+    font-size: 0.75em;  
+    margin-top: 10px;
 }
 
 #tbl {

@@ -41,13 +41,23 @@ function getQueryParams(qs) {
 function MulTable(offset, base){
     var that = this;
 
+    that.base = base;
     that.blinkingID = null;
     that.timer = null;
     that.render(parseInt(offset, 10), parseInt(base, 10));
 
     // Setup event handlers
-    jQuery('#hide-all').click(function(){ that.adjustAll(false); });
-    jQuery('#show-all').click(function(){ that.adjustAll(true); });
+    jQuery('#test-mode').button().click(function(){
+        that.blinkInit();
+    });
+    jQuery('#hide-all').button().click(function(){
+        that.adjustAll(false); 
+        that.blinkEnd();
+    });
+    jQuery('#show-all').button().click(function(){ 
+        that.adjustAll(true); 
+        that.blinkEnd();
+    });
 }
 
 /**
@@ -140,7 +150,7 @@ MulTable.prototype.render = function(offsetArg, base){
 
                    if (that.blinkingID != null &&
                        $(this).attr('id') == that.blinkingID){
-                       that.blinkClear();
+                       that.blinkNext();
                    }
                 });
             // FUTURE:
@@ -152,19 +162,62 @@ MulTable.prototype.render = function(offsetArg, base){
             //     });
         }
     }
-
-// TODO: this is just for debugging, but need a way to init
-//       test mode:
-// that.blinkButton('check_1_2');
 }
 
-MulTable.prototype.blinkInit = function(id){ /* TODO */ }
-MulTable.prototype.blinkNext = function(id){ /* TODO */ }
+/**
+ * Initialize data for test mode
+ */
+MulTable.prototype.blinkInit = function(id){
+    var that = this, x, y, i, r, tmp, data = [];
 
+    for (x = 1; x < 11; x++)
+        for (y = 1; y < 11; y++)
+            data.push("check_" + x + "_" + y);
+
+    for (i = 0; i < data.length; i++){
+        r = Math.floor(Math.random() * data.length);
+        tmp = data[i];
+        data[i] = data[r];
+        data[r] = tmp;
+    }
+
+    that.blinkRemaining = data;
+    that.blinkNext();
+}
+
+/**
+ * End test mode
+ */
+MulTable.prototype.blinkEnd = function(){
+    var that = this;
+    that.blinkStop();
+    that.blinkRemaining = null;
+}
+
+/**
+ * Move to the next element during test mode
+ */
+MulTable.prototype.blinkNext = function(id){
+    var that = this, next;
+
+    that.blinkStop();
+    while (that.blinkRemaining.length > 0){
+        next = that.blinkRemaining.pop();
+
+        if (!jQuery('#' + next).is(':checked')){
+            that.blinkStart(next);
+            break;
+        }
+    }
+}
+
+/**
+ * Start test mode effects on the given element 
+ */
 MulTable.prototype.blinkStart = function(id){
     var that = this, elm = jQuery('#' + id).parent();
 
-    that.blinkClear();
+    that.blinkStop();
     that.blinkingID = id;
     that.timer = setInterval(blink, 10);
 
@@ -175,11 +228,15 @@ MulTable.prototype.blinkStart = function(id){
     }
 }
 
+/**
+ * Stop test mode effects
+ */
 MulTable.prototype.blinkStop = function(){
     var that = this;
     
     if(that.timer != null){
         clearInterval(that.timer);
+        jQuery('#' + that.blinkingID).stop();
         that.blinkingID = null; 
         that.timer = null;
     }
