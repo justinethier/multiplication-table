@@ -93,12 +93,20 @@ MulTable.prototype.hideButton = function(jqButton){
         "&nbsp;");
 }
 
+MulTable.prototype.numberOfButtons = function(base){
+    if (base == 2)
+        return 10;
+    return base;
+}
+
 /**
  * Render DOM for the multiplication table
  */
 MulTable.prototype.render = function(offsetArg, base){
-    var that = this, r, rv, row, c, cv, col, id, offset = offsetArg || 0,
-        product, max = (base == 2 ? 11 : base + 1),
+    var that = this, 
+        r, rv, row, c, cv, col, id, product, 
+        offset = offsetArg || 0,
+        max = that.numberOfButtons(base) + 1,
         cssClass = "col-1-" + (max);
 
     for (r=0; r < max; r++){
@@ -169,11 +177,16 @@ MulTable.prototype.render = function(offsetArg, base){
  */
 MulTable.prototype.blinkInit = function(id){
     var that = this, x, y, i, r, tmp, data = [];
+        max = that.numberOfButtons(that.base) + 1;
 
-    for (x = 1; x < 11; x++)
-        for (y = 1; y < 11; y++)
+    // Create a list of buttons to visit
+    for (x = 1; x < max; x++){
+        for (y = 1; y < max; y++){
             data.push("check_" + x + "_" + y);
+        }
+    }
 
+    // Randomize order
     for (i = 0; i < data.length; i++){
         r = Math.floor(Math.random() * data.length);
         tmp = data[i];
@@ -181,6 +194,7 @@ MulTable.prototype.blinkInit = function(id){
         data[r] = tmp;
     }
 
+    // Start the test!
     that.blinkRemaining = data;
     that.blinkNext();
 }
