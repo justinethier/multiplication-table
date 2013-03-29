@@ -7,14 +7,20 @@
  * This file contains code for the main page
  */
 
+/**
+ * Called on DOM ready to initialize everything
+ */
 jQuery(document).ready(function(){
     var $_GET = getQueryParams(document.location.search),
-        offset = $_GET.offset;
-    (new MulTable(offset));
+        offset = $_GET.offset,
+        base = $_GET.base || 10;
+    (new MulTable(offset, base));
 });
 
-// A utility function to extract GET parameter variables
-// http://stackoverflow.com/questions/439463/how-to-get-get-and-post-variables-with-jquery
+/**
+ * A utility function to extract GET parameter variables
+ * http://stackoverflow.com/questions/439463/how-to-get-get-and-post-variables-with-jquery
+ */
 function getQueryParams(qs) {
     qs = qs.split("+").join(" ");
     var params = {},
@@ -32,16 +38,19 @@ function getQueryParams(qs) {
 /**
  * An object to construct and work with the multiplication table
  */
-function MulTable(offset){
+function MulTable(offset, base){
     var that = this;
 
-    that.render(parseInt(offset, 10));
+    that.render(parseInt(offset, 10), parseInt(base, 10));
 
     // Setup event handlers
     jQuery('#hide-all').click(function(){ that.adjustAll(false); });
     jQuery('#show-all').click(function(){ that.adjustAll(true); });
 }
 
+/**
+ * Callback to show/hide all buttons
+ */
 MulTable.prototype.adjustAll = function(value){
     var that = this;
 
@@ -56,39 +65,51 @@ MulTable.prototype.adjustAll = function(value){
     });
 }
 
+/**
+ * Show contents of a 'button'
+ */
 MulTable.prototype.showButton = function(jqButton){
     $('.ui-button-text', jqButton.parentNode).text(
         $('label', jqButton.parentNode).attr('value'));
 }
 
+/**
+ * Hide contents of a 'button'
+ */
 MulTable.prototype.hideButton = function(jqButton){
     $('.ui-button-text', jqButton.parentNode).html(
         "&nbsp;");
 }
 
-MulTable.prototype.render = function(offsetArg){
-    var r, rv, row, c, cv, col, id, offset = offsetArg || 0;
+/**
+ * Render DOM for the multiplication table
+ */
+MulTable.prototype.render = function(offsetArg, base){
+    var r, rv, row, c, cv, col, id, offset = offsetArg || 0,
+        product, max = (base == 2 ? 11 : base + 1),
+        cssClass = "col-1-" + (max);
 
-    for (r=0; r < 11; r++){
+    for (r=0; r < max; r++){
         row = $('<div class="grid grid-pad"></div>');
-        for (c=0; c < 11; c++){
+        for (c=0; c < max; c++){
 
             rv = r + offset;
             cv = c + offset;
+            product = (rv * cv).toString(base).toUpperCase();
 
             if (r === 0 && c === 0){
-                col = $('<div class="col-1-11"><div class="content content-label" style="text-align: center;">X</div></div>');
+                col = $('<div class="' + cssClass + '"><div class="content content-label" style="text-align: center;">X</div></div>');
             } else if (r === 0){
-                col = $('<div class="col-1-11"><div class="content content-label" style="text-align: center;">' + 
-                    cv + '</div></div>');
+                col = $('<div class="' + cssClass + '"><div class="content content-label" style="text-align: center;">' + 
+                    cv.toString(base).toUpperCase() + '</div></div>');
             } else if (c === 0){
-                col = $('<div class="col-1-11"><div class="content content-label" style="text-align: center;">' + 
-                    rv + '</div></div>');
+                col = $('<div class="' + cssClass + '"><div class="content content-label" style="text-align: center;">' + 
+                    rv.toString(base).toUpperCase() + '</div></div>');
             } else {
-                col = $('<div class="col-1-11"><div class="content content-square">' + 
+                col = $('<div class="' + cssClass + '"><div class="content content-square">' + 
 
                 // (r * c)
-                '<input type="checkbox" id="check_' + rv + '_' + cv + '" /><label style="width: 100%;" for="check_' + rv + '_' + cv + '" value="'+ (rv * cv) +'">&nbsp;</label>' +
+                '<input type="checkbox" id="check_' + rv + '_' + cv + '" /><label style="width: 100%;" for="check_' + rv + '_' + cv + '" value="'+ (product) +'">&nbsp;</label>' +
 
                 '</div></div>');
             }
@@ -98,8 +119,8 @@ MulTable.prototype.render = function(offsetArg){
     }
 
     $('#tbl').append($('<div> &nbsp; </div>'));
-    for (r=0; r < 11; r++){
-        for (c=0; c < 11; c++){
+    for (r=0; r < max; r++){
+        for (c=0; c < max; c++){
             rv = r + offset;
             cv = c + offset;
 
@@ -115,6 +136,13 @@ MulTable.prototype.render = function(offsetArg){
                            "&nbsp;");
                    }
                 });
+            // FUTURE:
+            // $('label', this.parentNode)
+            //     .hover(function(){
+            //         $(this.parentNode.parentNode)
+            //             .prevAll('div > label')
+            //             .addClass('ui-state-hover');
+            //     });
         }
     }
 }

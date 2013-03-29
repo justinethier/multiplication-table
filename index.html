@@ -6,7 +6,10 @@
   -->
 <html>
 <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
     <title>Interactive Multiplication Table</title>
+
 <!--
 // TODO's:
 
@@ -16,10 +19,10 @@
 -->
 
 <link rel="stylesheet" type="text/css" href="css/simplegrid.css" />
-<link rel="stylesheet" type="text/css" href="css/mulTbl/jquery-ui-1.9.0.custom.min.css" />
+<link rel="stylesheet" type="text/css" href="css/mulTbl/jquery-ui-1.10.2.custom.min.css" />
 <link rel="stylesheet" type="text/css" href="css/index.css" />
 <script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/jquery-ui-1.9.0.custom.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.10.2.custom.min.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/javascript">
 
@@ -37,16 +40,25 @@
 </head>
 <body>
   <div id="main-content" class="mulTbl"> 
-    <div class="ui-widget-headerX ui-corner-bottom" style="margin-left: 70%; width: 28%; text-align: center; white-space: nowrap; background-color: rgba(66, 66, 66, 0.5); padding: 5px; font-weight: normal !important; " id="header-bar">
-      <a class="ui-widget" style="color: white;" href="index.html">Basic (1 - 10)</a>
+    <div class="ui-corner-bottom" id="header-bar">
+      <a class="ui-widget content-label" href="index.html">Basic</a>
       &nbsp;
       &nbsp;
-      <a class="ui-widget" style="color: white;" href="index.html?offset=10">Advanced (11 - 20)</a>
+      <a class="ui-widget content-label" href="index.html?offset=10">Advanced</a>
+      &nbsp;
+      &nbsp;
+      <a class="ui-widget content-label" href="index.html?base=2">Binary</a>
+      &nbsp;
+      &nbsp;
+      <a class="ui-widget content-label" href="index.html?base=8">Octal</a>
+      &nbsp;
+      &nbsp;
+      <a class="ui-widget content-label" href="index.html?base=16">Hex</a>
     </div>
     <div id="content-title">
       <strong>Multiplication Table</strong>
-      <a class="ui-widget" style="margin-top: 15px;" href="#" id="hide-all">Hide All</a>
-      <a class="ui-widget" style="margin-top: 15px;" href="#" id="show-all">Show All</a>
+      <a class="ui-widget" href="#" id="hide-all">Hide All</a>
+      <a class="ui-widget" href="#" id="show-all">Show All</a>
     </div>
     <div id="tbl" class="ui-widget">
       <div id="tbl-outer-sidebar">
@@ -54,13 +66,12 @@
         </div>
       </div>
     </div>
-    <div id="footer" style="font-size: smaller; margin-top: -2%; margin-left: 0%; width: 98%; text-align: right;">
-    <span style="float: left; margin-left: 2%;">
-        <a style="color: black;" href="http://www.mathsisfun.com/tables.html">Learn Your Multiplication Tables</a>
-        &nbsp; 
-        <a style="color: black;" href="https://github.com/justinethier/multiplication-table">Fork project on GitHub</a>
-    </span>
-    Copyright (C) 2012 <a href="https://github.com/justinethier" style="color: black;">Justin Ethier</a>
+    <div id="footer">
+        <span>
+            <a href="http://www.mathsisfun.com/tables.html">Learn Your Multiplication Tables</a> &nbsp;
+            <a href="https://github.com/justinethier/multiplication-table">Fork project on GitHub</a>
+        </span>
+        Copyright (C) 2012 <a href="https://github.com/justinethier">Justin Ethier</a>
     </div>
   </div>
 </body>
